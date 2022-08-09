@@ -66,7 +66,7 @@ app.listen(port, () => {
 
 // /* -------------common routes------------- */
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // this rout is under progress
 
   let id = req.query.pages;
 
