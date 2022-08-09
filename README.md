@@ -1,5 +1,3 @@
-*/ CREATED BY REMIN T ROY /*
-
 NOTE this project is not completed and you will find lot's of unconnected code and files, Kindly wait until entire project Finishes 
 
 you need to first initialize project by running commant npm init
