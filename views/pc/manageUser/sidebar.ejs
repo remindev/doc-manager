@@ -1,0 +1,18 @@
+<div class="partials pc manage sidebar">
+    <div class="user">
+        <% if(user.img){ %>
+            <img src="<%=user.img%>" class="profile-dum">
+        <% }else{%>
+            <img src="/icn/user.png" class="profile-dum filter">
+        <%};%>
+        <p class="txt p dim">
+            <%= user.name %>
+        </p>
+    </div>
+    <ul>
+        <li <% if(view == "account"){ %> class="on" <%};%>  onclick="window.location.href = '/manage?pg=account'">Account info <span>></span></li>
+        <li <% if(view == "security"){ %> class="on" <%};%> onclick="window.location.href = '/manage?pg=security'">Security <span>></span></li>
+        <li <% if(view == "data"){ %> class="on" <%};%> onclick="window.location.href = '/manage?pg=data'">Your data <span>></span></li>
+        <li <% if(view == "other"){ %> class="on" <%};%> onclick="window.location.href = '/manage?pg=other'">Other settings <span>></span></li>
+    </ul>
+</div>

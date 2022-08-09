@@ -1,0 +1,20 @@
+<div class="nav pg">
+    <ul>
+        <li <% if(currentPage == "home"){ %> <%- 'class="on"' %> <% } %> >
+            <img src="/icn/home.svg">
+            Home
+        </li>
+        <li <% if(currentPage == "explore"){ %> <%= 'class=on' %> <% } %> >
+            <img src="/icn/explore.svg"> 
+            Explore
+        </li>
+        <li <% if(currentPage == "saved"){ %> <%= 'class=on' %> <% } %> >
+            <img src="/icn/bookmark.svg"> 
+            Saved
+        </li>
+        <li <% if(currentPage == "settings"){ %> <%= 'class=on' %> <% } %> >
+            <img src="/icn/settings.svg">
+            Settings
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,342 @@
+.partials.pc.title {
+  width: 100%;
+  height: 45px;
+  border-bottom: 1px solid var(--common-border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--bg);
+  display: grid;
+  grid-template-columns: 100px auto 50px;
+  align-items: center;
+  z-index: 10;
+}
+.partials.pc.title img {
+  width: var(--common-icn-width);
+  filter: var(--common-icn-filter);
+  cursor: pointer;
+}
+.partials.pc.title .left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.partials.pc.title .right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.partials.pc.title .search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.partials.pc.title .search input {
+  padding: 3px 10px 3px 10px;
+  width: calc(100% - 30px);
+  max-width: 350px;
+  border: 1px solid var(--common-border);
+  background-color: var(--common-input-bg);
+  color: var(--common-font-color);
+  margin-right: 5px;
+}
+
+.partials.pc.manage.sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 45px;
+  left: 0;
+  border-right: 1px solid var(--common-border);
+  z-index: 5;
+  background-color: var(--bg);
+}
+.partials.pc.manage.sidebar img.profile-dum {
+  width: 80px;
+  margin-bottom: 0px;
+  border-radius: 50%;
+}
+.partials.pc.manage.sidebar img.profile-dum.filter {
+  filter: var(--common-icn-filter-invert);
+}
+.partials.pc.manage.sidebar .user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  flex-direction: column;
+  gap: 10px;
+}
+.partials.pc.manage.sidebar ul {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 20px;
+}
+.partials.pc.manage.sidebar ul li {
+  list-style: none;
+  width: calc(100% - 10px);
+  height: 30px;
+  background-color: var(--common-highlight-bg);
+  margin-top: 10px;
+  padding-left: 10px;
+  border-radius: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.partials.pc.manage.sidebar ul li span {
+  position: absolute;
+  right: 10px;
+}
+.partials.pc.manage.sidebar ul li.on {
+  background-color: var(--common-on-color);
+  color: black;
+  font-weight: 700;
+}
+
+.page.pc.manage {
+  position: absolute;
+  top: 45px;
+  left: 200px;
+  width: calc(100% - 200px);
+}
+.page.pc.manage .txt.title {
+  font-size: 18px;
+}
+.page.pc.manage .txt.dim {
+  color: var(--common-txt-p-color);
+}
+
+.page.pc.manage.account .acc_ount {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 15px;
+  margin-bottom: 150px;
+}
+.page.pc.manage.account .acc_ount .user-data {
+  background: var(--bg-styled);
+  padding: 15px 15px 15px 15px;
+  border: 1px solid var(--common-border);
+  margin-top: 25px;
+  max-width: 800px;
+  border-radius: 2px;
+  position: relative;
+}
+.page.pc.manage.account .acc_ount img.icn {
+  width: var(--common-icn-width);
+  filter: var(--common-icn-filter);
+  cursor: pointer;
+}
+.page.pc.manage.account .acc_ount .right {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.page.pc.manage.account .acc_ount ul {
+  margin-top: 25px;
+  width: 100%;
+  position: relative;
+}
+.page.pc.manage.account .acc_ount ul .title {
+  font-size: 18px;
+}
+.page.pc.manage.account .acc_ount ul .txt.dim {
+  color: var(--common-txt-p-color);
+}
+.page.pc.manage.account .acc_ount ul .txt.err {
+  color: var(--common-error-color);
+}
+.page.pc.manage.account .acc_ount ul .txt.sucess {
+  color: var(--common-sucess-color);
+}
+.page.pc.manage.account .acc_ount ul li {
+  list-style: none;
+  transition: all 0.5s;
+  width: calc(100% - 20px);
+  padding: 10px;
+  background-color: var(--common-highlight-bg);
+  border-radius: 3px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-columns: -webkit-max-content auto 30px;
+  grid-template-columns: max-content auto 30px;
+}
+.page.pc.manage.account .acc_ount ul li .tit_le {
+  position: relative;
+  text-transform: capitalize;
+}
+.page.pc.manage.account .acc_ount ul li .tit_le span.right {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li .input_cont {
+  width: 100%;
+}
+.page.pc.manage.account .acc_ount ul li .input_cont input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: var(--common-font-color);
+}
+.page.pc.manage.account .acc_ount ul li .input_cont input[type=date] {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li .input_cont input.dob_hide {
+  display: initial;
+}
+.page.pc.manage.account .acc_ount ul li img {
+  filter: var(--common-icn-filter);
+  width: var(--common-icn-width);
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+.page.pc.manage.account .acc_ount ul li.on {
+  width: calc(100% - 20px);
+  padding: 5px 10px;
+  background-color: var(--bg);
+  border-radius: 3px;
+  border: 1px solid rgb(45, 145, 170);
+  margin-top: 55px;
+  margin-bottom: 35px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.page.pc.manage.account .acc_ount ul li.on .tit_le {
+  position: absolute;
+  transform: translate(-15px, -35px);
+  transition: all 0.5s;
+  width: 100%;
+}
+.page.pc.manage.account .acc_ount ul li.on .tit_le span.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 10px;
+}
+.page.pc.manage.account .acc_ount ul li.on .tit_le span.right span {
+  cursor: pointer;
+}
+.page.pc.manage.account .acc_ount ul li.on .tit_le span.right span:hover {
+  color: var(--common-font-color);
+}
+.page.pc.manage.account .acc_ount ul li.on .input_cont {
+  width: 100%;
+}
+.page.pc.manage.account .acc_ount ul li.on .input_cont input {
+  color: transparent;
+  width: 100%;
+  background-color: var(--bg);
+  border: none;
+  color: var(--common-font-color);
+}
+.page.pc.manage.account .acc_ount ul li.on .input_cont input[type=date] {
+  display: initial;
+}
+.page.pc.manage.account .acc_ount ul li.on .input_cont input.dob_hide {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li.on img.edit {
+  display: none;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont {
+  width: 100%;
+  background-color: var(--common-highlight-bg);
+  margin-top: 15px;
+  border-radius: 3px;
+  display: grid;
+  grid-template-columns: auto 60px;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont .custom-disp-cont {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont .action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont .action img {
+  width: var(--common-icn-width);
+  filter: var(--common-icn-filter);
+  cursor: pointer;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont .input-cont {
+  display: none;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont .btn-cont {
+  display: none;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on {
+  background-color: var(--bg);
+  border: 1px dashed var(--common-border);
+  grid-template-columns: auto;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .custom-disp-cont {
+  display: none;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .action {
+  display: none;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .input-cont {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 20px);
+  gap: 10px;
+  padding: 10px;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .input-cont .err.error {
+  background-color: var(--common-error-bg-color);
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .input-cont .err {
+  text-transform: capitalize;
+  width: calc(100% - 20px);
+  background-color: var(--common-on-field-color);
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .input-cont input {
+  border: none;
+  border: 1px solid var(--common-border);
+  padding: 5px 10px;
+  background-color: transparent;
+  color: var(--common-font-color);
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .btn-cont {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  padding: 15px;
+  width: calc(100% - 30px);
+  position: relative;
+}
+.page.pc.manage.account .acc_ount .custom-field-cont.on .btn-cont button {
+  width: 80px;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--common-btn-color);
+  color: var(--common-font-color-invert);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .partials.pc.manage.sidebar {
+    display: none;
+  }
+  .page.pc.manage {
+    width: 100%;
+    left: 0;
+  }
+}/*# sourceMappingURL=style.css.map */

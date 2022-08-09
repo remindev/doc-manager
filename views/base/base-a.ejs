@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC = view</title>
+    <link rel="stylesheet" href="/common/style.css">
+    <link rel="stylesheet" href="/base-a/style.css">
+</head>
+<body>
+    <%-body%>
+
+    <script>
+        var theme = ["dark", "light"];
+        var themenum = 0;
+        document.addEventListener("keypress", e => {
+            if (e.key == "t") {
+    
+                if (themenum == 0) {
+                    themenum = 1;
+                    document.getElementsByTagName("html")[0].setAttribute("data-theme", theme[0]);
+                } else if (themenum == 1) {
+                    themenum = 0;
+                    document.getElementsByTagName("html")[0].setAttribute("data-theme", theme[1]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

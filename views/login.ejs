@@ -1,0 +1,200 @@
+<div class="page login">
+
+    <div class="auth-box <% if(device == "smartphone"){ %>m<% }; %> " id="AUTH_PG" style="display:none;">
+            <div class="pg methord" id="AUTH_PG_METHORD" style="display:none;">
+                <h4 class="txt title">Continue using</h4>
+                <h6 style="display: none;"></h6>
+                <button class="g" id="AUTH_PG_GOOGLE_BTN">Google</button>
+                <button onclick="AUTH_PG.nav(2)">E-Mail</button>
+            </div>
+            <div class="pg action" id="AUTH_PG_ACTION" style="display:none;">
+                <h4 class="txt title">You are a...</h4>
+                <button onclick="AUTH_PG.nav(4)">Existing user</button>
+                <button class="g" onclick="AUTH_PG.nav(3)">New user +</button>
+            </div>
+            <div class="pg login" id="AUTH_PG_LOGIN" style="display:none;">
+                <h4 class="txt title">Login with Email</h4>
+                <h6 style="display: none;"></h6>
+                <input type="text" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <button class="s" id="AUTH_PG_LOGIN_SUBMIT">Submit ></button>
+            </div>
+            <div class="pg new" id="AUTH_PG_NEW" style="display:none;">
+                <h4 class="txt title">Create account</h4>
+                <h6 style="display:none;"></h6>
+                <input type="text" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Conform">
+                <button class="s" id="AUTH_PG_SIGNIN_SUBMIT">Submit ></button>
+            </div>
+            <div class="pg" id="AUTH_PG_RESULT" style="display:none;">
+                <h2 class="txt title">Login sucess</h2>
+                <span>You will be redirected to home page in <span id="AUTH_PG_REDIRECT_NUM">10s</span></span>
+            </div>
+            <div class="pg" id="AUTH_PG_LOADER" style="display: none;">
+                <div class="loder"></div>
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", init => {
+            document.getElementById("AUTH_PG").style.display = "flex";
+            AUTH_PG.nav(1);
+        });
+        var AUTH_PG = {
+            nav: function (page) {
+                let pages = ["AUTH_PG_METHORD", "AUTH_PG_ACTION", "AUTH_PG_NEW", "AUTH_PG_LOGIN", "AUTH_PG_RESULT", "AUTH_PG_LOADER"];
+                let s = ["getElementById", "style", "display", "flex", "none"];
+                pages.forEach(pg => {
+                    document[s[0]](pg)[s[1]][s[2]] = s[4];
+                });
+                document[s[0]](pages[(page - 1)])[s[1]][s[2]] = s[3];
+            },
+            page:function(){
+                let i = 11;
+                let time = setInterval((res)=>{
+                   i--;
+                   document.getElementById("AUTH_PG_REDIRECT_NUM").textContent = i+"s";
+                   if(i==0){
+                    clearTimeout(time);
+                    window.location.href = "/manage";
+                   }                    
+                },1000);
+            }
+        }
+
+    </script>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-analytics.js";
+        import {
+            getAuth, createUserWithEmailAndPassword,
+            signInWithEmailAndPassword, onAuthStateChanged,
+            GoogleAuthProvider, signInWithPopup, signOut
+        } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0Z4D-mh3Mt1-xgAwfJ1HLfP8aR2i_K2Q",
+            authDomain: "project-site-6156b.firebaseapp.com",
+            projectId: "project-site-6156b",
+            storageBucket: "project-site-6156b.appspot.com",
+            messagingSenderId: "1002441406051",
+            appId: "1:1002441406051:web:f73f6487fc7807685eea56",
+            measurementId: "G-00223SLQ7T"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        var errTXT = [
+            "Plz enter a valid email",
+            "Password length must greater than 6",
+            "conform password does't match",
+            "Loading...",
+            "connecting to server",
+            "Opening popup"
+        ];
+
+        document.getElementById("AUTH_PG_LOGIN_SUBMIT").addEventListener("click", btn => {
+            let inputs = btn.target.parentElement.getElementsByTagName("input");
+            let errDisp = btn.target.parentElement.getElementsByTagName("h6");
+            errDisp[0].style.display = "initial";
+
+            if (inputs[0].value.length >= 4) {
+                if (inputs[0].value.length >= 6) {
+
+                    errDisp[0].textContent = errTXT[3];
+                    errDisp[0].style.backgroundColor = "#468a79";
+
+                    signInWithEmailAndPassword(auth, inputs[0].value.toLowerCase(), inputs[1].value)
+                        .then(user => {
+                            sentID(user._tokenResponse.idToken);
+                            errDisp[0].textContent = errTXT[4];
+
+                        }).catch((error) => {
+                            errDisp[0].style.backgroundColor = "#e48585";
+                            errDisp[0].textContent = error.code;
+                        });
+                } else {
+                    errDisp[0].textContent = errTXT[1];
+                };
+            } else {
+                errDisp[0].textContent = errTXT[0];
+            };
+        });
+
+        document.getElementById("AUTH_PG_SIGNIN_SUBMIT").addEventListener("click", btn => {
+
+            let inputs = btn.target.parentElement.getElementsByTagName("input");
+            let errDisp = btn.target.parentElement.getElementsByTagName("h6");
+            errDisp[0].style.display = "initial";
+
+            if (inputs[0].value.length >= 4) {
+                if (inputs[1].value.length >= 6) {
+                    if (inputs[1].value == inputs[2].value) {
+                        errDisp[0].textContent = errTXT[3];
+                        errDisp[0].style.backgroundColor = "#468a79";
+
+                        createUserWithEmailAndPassword(auth, inputs[0].value.toLowerCase(), inputs[2].value)
+                            .then(user => {
+                                sentID(user._tokenResponse.idToken);
+                                errDisp[0].textContent = errTXT[4];
+                            }).catch((error) => {
+                                errDisp[0].style.backgroundColor = "#e48585";
+                                errDisp[0].textContent = error.code;
+                            });
+
+                    } else {
+                        errDisp[0].textContent = errTXT[2];
+                    }
+                } else {
+                    errDisp[0].textContent = errTXT[1];
+                }
+            } else {
+                errDisp[0].textContent = errTXT[0];
+            };
+
+        });
+
+        document.getElementById("AUTH_PG_GOOGLE_BTN").addEventListener("click", btn => {
+
+            let errDisp = btn.target.parentElement.getElementsByTagName("h6");
+            errDisp[0].style.display = "initial";
+            errDisp[0].style.backgroundColor = "#468a79";
+            errDisp[0].textContent = errTXT[5];
+
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    sentID(result._tokenResponse.idToken);
+                }).catch((error) => {
+                    errDisp[0].style.backgroundColor = "#e48585";
+                    errDisp[0].textContent = error.code;
+                });
+        });
+
+
+        function sentID(id) {
+            let url = "/api/auth-login-sign";
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "id": id })
+            }).then(res => {
+                return res.json();
+            }).then(res => {
+                console.log(res);
+                window.AUTH_PG.nav(5);
+                window.AUTH_PG.page();
+            })
+        };
+
+    </script>
+
+</div>

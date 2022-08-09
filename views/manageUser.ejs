@@ -1,0 +1,26 @@
+<% if(device == "desktop"){%>
+
+    <% if(view){ %>
+
+        <%- include("./pc/title") %> 
+        <%- include("./pc/manageUser/sidebar") %>
+
+    <% if(view == "account"){ %>
+        <%- include("./pc/manageUser/account") %>
+    <% }else if(view == "security"){ %>
+        <%- include("./pc/manageUser/security") %> 
+    <% }else{  %> 
+        <%- "404"  %>
+    <% }; %>     
+    
+    <% }; %>
+
+<% }; %> 
+
+
+<% if(device == "smartphone"){ %> 
+    <%- include("./mobile/manageUser") %>
+<% }; %> 
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>

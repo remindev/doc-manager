@@ -1,0 +1,29 @@
+<div class="title">
+    <img src="/icn/account_circle.svg" class="l">
+      <%= title %>
+    <img src="/icn/search.svg" class="r" id="PG_searchBTN" onclick="siteBase.searchView(true)">
+
+    <div class="search pg" id="PG_searCont">
+        <img class="l" src="/icn/arrow_back.svg" onclick="siteBase.searchView()">
+        <input type="text" placeholder="Search">
+        <img src="/icn/search.svg">
+    </div>
+    <div class="suggestions" id="PG_suggestionsSearch"></div>
+</div>
+
+<script>
+    var siteBase = {
+        searchView:function(viewState){
+            let inputCont = document.getElementById("PG_searCont");
+            let suggestions = document.getElementById("PG_suggestionsSearch");
+
+            if(viewState){
+               inputCont.style.display = 'flex';
+               suggestions.style.display = 'initial';
+            }else{
+               inputCont.style.display = 'none';
+               suggestions.style.display = 'none';
+            }
+        }
+    }
+</script>

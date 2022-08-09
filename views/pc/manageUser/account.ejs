@@ -1,0 +1,593 @@
+<div class="page pc manage account">
+    <div class="acc_ount">
+
+        <div class="ti_tle">
+            <h3 class="txt title">Account info</h3>
+            <p class="txt dim">View and edit your data - user data collected by us are only used to improve user
+                experince. We dont share user's data </p><br>
+            <p class="txt dim"><strong>NOTE - </strong>A reload is required to reflect changes to all </p>
+        </div>
+
+        <div class="user-data">
+            <div class="title">
+                Basic info
+            </div>
+            <ul>
+                <li ondblclick="manageuser.basicInfo(this,'edit')">
+
+                    <div class="tit_le txt dim">
+                        <span id="type_basic-info_xpdfx">
+                            &nbsp; Name &nbsp;
+                        </span>
+                        <span class="txt sucess outputValueDisplay">
+                            : &nbsp;
+                        </span>
+                    </div>
+
+                    <div class="input_cont">
+                        <input maxlength="25" onfocus="manageuser.basicInfo(this.parentElement.parentElement,'focus')"
+                            type="text" disabled name="name" value="<%= user.name %>">
+                    </div>
+
+                    <img class="edit" onclick="manageuser.basicInfo(this.parentElement,'edit')" src="/icn/edit.svg"
+                        class="img right">
+                </li>
+
+                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                    <div class="tit_le txt dim">
+                        <span id="type_basic-info_xpdfx">
+                            &nbsp; Email &nbsp;
+                        </span>
+                        <span class="txt sucess outputValueDisplay">
+                            : &nbsp;
+                        </span>
+                        <span class="right">
+                            <span
+                                onclick="manageuser.basicInfo(this.parentElement.parentElement.parentElement,'cancel')">Cancel</span>
+                            <span
+                                onclick="manageuser.basicInfo(this.parentElement.parentElement.parentElement,'submit')">Save</span>
+                        </span>
+                    </div>
+                    <div class="input_cont">
+                        <input type="text" maxlength="60"
+                            onfocus="manageuser.basicInfo(this.parentElement.parentElement,'focus')" disabled
+                            name="email" value="<%=user.email%>">
+                    </div>
+                    <img class="edit" onclick="manageuser.basicInfo(this.parentElement,'edit')" src="/icn/edit.svg"
+                        class="img right">
+                </li>
+
+                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                    <div class="tit_le txt dim">
+                        <span id="type_basic-info_xpdfx">
+                            &nbsp; Bio &nbsp;
+                        </span>
+                        <span class="txt sucess outputValueDisplay">
+                            : &nbsp;
+                        </span>
+                    </div>
+                    <div class="input_cont">
+                        <input type="text" maxlength="120"
+                            onfocus="manageuser.basicInfo(this.parentElement.parentElement,'focus')" disabled name="bio"
+                            value="<%=user.bio%>">
+                    </div>
+                    <img class="edit" onclick="manageuser.basicInfo(this.parentElement,'edit')" src="/icn/edit.svg"
+                        class="img right">
+                </li>
+
+                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                    <div class="tit_le txt dim">
+                        <span id="type_basic-info_xpdfx">
+                            &nbsp; Phone &nbsp;
+                        </span>
+                        <span class="txt sucess outputValueDisplay">
+                            : &nbsp;
+                        </span>
+                    </div>
+                    <div class="input_cont">
+                        <input type="text" maxlength="120"
+                            onfocus="manageuser.basicInfo(this.parentElement.parentElement,'focus')" disabled
+                            name="phone" value="<%=user.phone%>">
+                    </div>
+                    <img class="edit" onclick="manageuser.basicInfo(this.parentElement,'edit')" src="/icn/edit.svg"
+                        class="img right">
+                </li>
+
+                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                    <div class="tit_le txt dim">
+                        <span id="type_basic-info_xpdfx">
+                            &nbsp; Dob &nbsp;
+                        </span>
+                        <span class="txt sucess outputValueDisplay">
+                            : &nbsp;
+                        </span>
+                        <span class="right">
+                            <span
+                                onclick="manageuser.basicInfo(this.parentElement.parentElement.parentElement,'cancel')">Cancel</span>
+                            <span
+                                onclick="manageuser.basicInfo(this.parentElement.parentElement.parentElement,'dob')">Save</span>
+                        </span>
+                    </div>
+                    <div class="input_cont" ondblclick="manageuser.basicInfo(this.parentElement,'edit')">
+                        <input type="text" name="dob" class="dob_hide" value="<%= user.dob %>" disabled>
+                        <input type="date" name="dob" name="dob">
+                    </div>
+                    <img class="edit" onclick="manageuser.basicInfo(this.parentElement,'edit')" src="/icn/calendar.svg"
+                        class="img right">
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="user-data">
+            <div class="title">Other contact info</div>
+            <div class="right">
+                <img src="/icn/add.svg" class="icn"
+                    onclick="manageuser.addContactInfo(this.parentElement.parentElement)">
+            </div>
+
+            <div class="custom-objects-are-kept-here">
+
+                <% user.custom.forEach((element,index)=> { %>
+
+                    <% if(!element){return 0;}; %> 
+
+                    <div class="custom-field-cont" id="custom-field">
+                        <div class="custom-disp-cont">
+                            <span class="txt dim field">
+                                <%=element.name%>
+                            </span>
+                            <span class="txt dim">&nbsp; : &nbsp;</span>
+                            <span class="name">
+                                <%=element.data%>
+                            </span>
+                        </div>
+                        <div class="action">
+                            <img src="/icn/edit.svg"
+                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'edit')">
+                            <img src="/icn/delete.svg"
+                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'remove')">
+                        </div>
+                        <div class="input-cont">
+                            <div class="err">Edit mode</div>
+                            <input type="text" placeholder="Field Name" value="<%=element.name%>">
+                            <input type="text" placeholder="Value" value="<%=element.data%>">
+                            <input type="hidden" value="<%= element.id %>">
+                        </div>
+                        <div class="btn-cont">
+                            <button
+                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'cancel')">cancel</button>
+                            <button
+                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'update')">save</button>
+                        </div>
+                    </div>
+
+                <% }); %>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    // js script for manage user page account
+
+    // this constant holds all functions for this page
+    const manageuser = {
+
+        basicInfo: function (obj, action) {
+            // this function controlls all actions e.g. edit submit etc.. of all data in basic info of user 
+
+            // declaring veriables needed
+
+            let mainLiObject = obj;
+
+            let inputField = mainLiObject.getElementsByTagName("input")[0];
+
+            let typeOfData = inputField.getAttribute("name");
+
+            let outputValueDisplay = mainLiObject.getElementsByClassName("outputValueDisplay")[0];
+
+            let data = inputField.value.trim();
+
+            let editst = " ~ &nbsp;";
+
+            let cancelst = " : &nbsp;";
+
+            let charLimit = {
+                email: 60,
+                name: 25,
+                bio: 120,
+                phone: 13,
+                dob: 10
+            };
+
+
+            switch (action) {
+
+                case "edit": {
+
+                    // this chects if action is edit and if edit equals action calls edit function
+                    edit();
+
+                    break;
+                };
+
+                case "cancel": {
+                    cancel();
+                    break;
+                };
+
+                case "submit": {
+                    submit(typeOfData, data);
+                    break;
+                };
+
+                case "dob": {
+                    let dobData = mainLiObject.getElementsByTagName("input")[1].value.trim();
+                    submit('dob', dobData);
+                    break;
+                };
+
+                case "focus": {
+
+                    inputField.addEventListener("keyup", e => {
+
+                        if (e.keyCode == 13) {
+
+                            submit(typeOfData, e.target.value);
+
+                        } else {
+
+                            if (typeOfData == "dob") {
+                                return 0;
+                            };
+
+                            if (inputField.value.trim().length > charLimit[typeOfData]) {
+
+                                outDisp(`char length exeeded`, "err");
+
+                            } else {
+
+                                outDisp(`char left ${charLimit[typeOfData] - inputField.value.trim().length}`);
+
+                            }
+                        };
+
+                    });
+
+                    inputField.addEventListener("focusout", e => {
+                        submit(typeOfData, e.target.value);
+                    });
+
+                    break;
+
+                };
+
+            };
+
+            function outDisp(data, type) {
+
+                if (type == "err") {
+                    outputValueDisplay.classList.replace("sucess", "err");
+                } else {
+                    outputValueDisplay.classList.replace("err", "sucess");
+                };
+
+                outputValueDisplay.innerHTML = data;
+
+            };
+
+            function edit() {
+
+                mainLiObject.setAttribute("class", "on");
+                inputField.removeAttribute("disabled");
+                inputField.focus();
+
+                outDisp(` Edit ${typeOfData}`);
+
+            };
+
+            function cancel(dataInput) {
+
+                mainLiObject.setAttribute("class", "off");
+
+                if (dataInput) {
+
+                    if (typeOfData == "dob") {
+
+                        let dataToShow = dataInput.split("-");
+
+                        let dd = dataToShow[2];
+                        let mm = dataToShow[1];
+                        let yyyy = dataToShow[0];
+
+                        inputField.value = `${dd}-${mm}-${yyyy}`;
+                        inputField.setAttribute("value", `${dd}-${mm}-${yyyy}`);
+
+                    } else {
+
+                        inputField.value = dataInput;
+                        inputField.setAttribute("value", dataInput);
+
+                    };
+
+                } else {
+                    inputField.value = inputField.getAttribute("value");
+                };
+
+                inputField.setAttribute("disabled", "");
+                outDisp(cancelst);
+
+            };
+
+            function submit(typeOfData, data) {
+
+                outDisp("loading...");
+
+                if (data.length > charLimit[typeOfData]) {
+
+                    outDisp(`Entered data doesn't meet requirement`, "err");
+
+                } else {
+
+                    let url = `/api/manage?type=${typeOfData}`;
+
+                    fetch(url, {
+                        method: "POST",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ "data": data })
+                    })
+                        .then(res => {
+                            return res.json();
+                        })
+                        .then(res => {
+
+                            if (res.response.type == "error") {
+
+                                outDisp(res.response.data, "err");
+
+                            } else {
+
+                                outDisp("Done upload...")
+                                cancel(data);
+
+                            };
+
+                        }).catch(err => {
+                            outDisp("Error While uploading data to server", "err");
+                        });
+
+                };
+
+            };
+
+        },
+        contactInfo: function (obj, action) {
+
+            let mainObj = obj;
+
+            let inputFieldName = mainObj.getElementsByClassName("input-cont")[0].getElementsByTagName("input")[0];
+
+            let inputValue = mainObj.getElementsByClassName("input-cont")[0].getElementsByTagName("input")[1];
+
+            let allInputs = mainObj.getElementsByClassName("input-cont")[0].getElementsByTagName("input");
+
+            let outputFieldNAme = mainObj.getElementsByClassName("custom-disp-cont")[0].getElementsByTagName("span")[0];
+
+            let outputValue = mainObj.getElementsByClassName("custom-disp-cont")[0].getElementsByTagName("span")[2];
+
+            let outDispObj = mainObj.getElementsByClassName("err")[0];
+
+            let limit = {
+                field: 15,
+                value: 100
+            };
+
+            let typeOfData = [
+                "addCustom",
+                "removeCustom",
+                "updateCustom"
+            ];
+
+            switch (action) {
+
+                case "edit": {
+
+                    edit();
+                    outDisp("Edit this custom field");
+
+                    break;
+                };
+
+                case "cancel": {
+
+                    cancel();
+
+                    break;
+                };
+
+                case "save": {
+
+                    save("add");
+
+                    break;
+                };
+
+                case "update": {
+
+                    save("update");
+
+                    break;
+                };
+
+                case "remove": {
+                    submit("remove");
+                    break;
+                };
+
+            };
+
+            function outDisp(errContent, type) {
+                if (type == "err") {
+                    outDispObj.setAttribute("class", "err error");
+                } else {
+                    outDispObj.setAttribute("class", "err");
+                };
+
+                outDispObj.innerHTML = errContent;
+            };
+
+            function edit() {
+                mainObj.setAttribute("class", "custom-field-cont on");
+            };
+
+            function cancel() {
+                mainObj.setAttribute("class", "custom-field-cont");
+
+                if(action == "save" || action == "update"){
+                    outputFieldNAme.textContent = allInputs[0].value;
+                    outputValue.textContent = allInputs[1].value
+                };
+
+            };
+
+            function save(type) {
+
+                if (inputFieldName.value.length >= 1 & inputFieldName.value.length <= limit["field"]) {
+
+                    if (inputValue.value.length >= 1 & inputValue.value.length <= limit["value"]) {
+
+                        // all primary length checks passed 
+
+                        if (type == "add") {
+
+                            submit("add");
+
+                        } else if (type == "update") {
+
+                            submit("update");
+
+                        };
+
+                    } else {
+
+                        // value input field dosn't contain a valid length of data as input
+                        outDisp("Plz fill up all fields", "err");
+
+                    };
+
+                } else {
+
+                    // value of inputfield dosen't contain valid length of data
+                    outDisp("plz fill up all fields", "err")
+
+                };
+
+            };
+
+            function submit(type) {
+
+                let data = {
+                    name: inputFieldName.value,
+                    data: inputValue.value
+                };
+
+                if (type == "add") {
+
+                    typeOfData = typeOfData[0];
+
+                } else if (type == "remove") {
+
+                    typeOfData = typeOfData[1];
+                    data.id = allInputs[2].value;
+
+                } else if (type == "update") {
+
+                    typeOfData = typeOfData[2];
+                    data.id = allInputs[2].value;
+
+                };
+
+                let url = `/api/manage?type=${typeOfData}`;
+
+                console.log(data);
+                console.log(url);
+
+                outDisp("Loading...");
+
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "data": data })
+
+                }).then(res => {
+                    return res.json();
+                }).then(res => {
+
+                    if (res.response.type == "error") {
+                        outDisp(res.response.data, "err");
+                    } else {
+                        if (action == "remove") {
+                            mainObj.remove();
+                        } else {
+                            cancel();
+                        };
+                    };
+
+                }).catch(err => {
+                    console.log(err);
+                    outDisp("Faild to connect to server", "err");
+                });
+
+            };
+
+        },
+        addContactInfo: function (obj) {
+            obj.getElementsByClassName("custom-objects-are-kept-here")[0].innerHTML =
+                `
+            <div class="custom-field-cont on">
+                <div class="custom-disp-cont">
+                    <span class="txt dim field">
+                        
+                    </span>
+                    <span class="txt dim">&nbsp; : &nbsp;</span>
+                    <span class="name">
+                        
+                    </span>
+                </div>
+                <div class="action">
+                    <img src="/icn/edit.svg"
+                        onclick="manageuser.contactInfo(this.parentElement.parentElement,'edit')">
+                    <img src="/icn/delete.svg">
+                </div>
+                <div class="input-cont">
+                    <div class="err">Create new custom field</div>
+                    <input type="text" placeholder="Field Name" >
+                    <input type="text" placeholder="Value" >
+                </div>
+                <div class="btn-cont">
+                    <button
+                        onclick="this.parentElement.parentElement.remove()">cancel</button>
+                    <button onclick="manageuser.contactInfo(this.parentElement.parentElement,'save')">save</button>
+                </div>
+            </div>
+
+            `+ obj.getElementsByClassName("custom-objects-are-kept-here")[0].innerHTML;
+
+        },
+
+    };
+
+</script>

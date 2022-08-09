@@ -1,0 +1,412 @@
+import { config } from 'dotenv'; config(); // imports dot env for acessing environmental veriables
+import { MongoClient, ObjectId } from 'mongodb'; // imports mongodb 
+
+export var ObjId = ObjectId; // exprting Object id from mongodb as ObjId
+
+export class userObj {
+    // this class is an object constructor
+    // this class creates user object according to input 
+
+    constructor({ uid, name, dob, email, gender, img, phone, createdAt, lastSignIn, bio, provider, role, disabled, settings, custom }) {
+        // assining value to constructor object from data input
+
+        this.uid = uid; // creats user id field   < "fvytr215212vt2vyt1r2v" > type = string
+        this.name = name; // creates name field   < "Example name" > type = string
+        this.dob = dob; // creates date of berth field  < "21-12-2004" > type = string
+        this.gender = gender; // creates genetr field  < "male" > type = string
+        this.email = email; // creates email field  < "email@example.com" > type = string
+        this.img = img; // creates image url field  < "https://example.image.com/url" > type = string
+        this.phone = phone; // creates phone number field < 90000001111 > type = number
+        this.createdAt = createdAt; // creates a date obj for created at  < date > type = string | date object
+        this.lastSignIn = lastSignIn; // creates a date object for last sign in < date > type = string | date object
+        this.bio = bio; // creates bio field  < "REMINZ GOING EXPLORE MODE" > type = string
+        this.provider = provider; // creates a provider field < "phone | google" > type = string
+        this.role = role; // creates role object  < "Admin" > type = string
+        this.disabled = disabled; // creates field to know if user is disabled or not < true > type = boolean
+        this.settings = settings; // settings object containg user preffernses and themes < {} > type = object
+        this.custom = []; // custom object contains custom contact data < {} > type = object
+
+        // checks if custom value is present if create a object with value else creates an empty object
+        if (custom) {
+            // if custom value is provided add that value to user object
+            this.custom = custom;
+        };
+
+    };
+
+};
+
+export function db(
+    // this function controlls all data request to db other than sessions  
+    // this is the main function that controlls the db communications and simplifis it 
+    // reads, writes, delete and update data and returnes a promise callback 
+    
+    // data inputs of function 
+    { 
+        get, // input function(get:{ <bulk find query> });                                          | ---
+        getOne, // input function(getOne:{ <find query> });                                         | --
+        getByID, // input function(getById:{ <id> });                                               | -
+        setOne, // input function(setOne:{ <data to save> });                                       | NOTE : only one of these options are allowed.
+        setMany, // input function(setMany:{[ <data to save>},{<data to save>} ]);                  |        if more options passed function will reject the promise callback.
+        deleteOne, // input function(deleteOne:{ <find query> });                                   | -
+        deleteMany, // input function(deleteMany:{ < bulk find query> });                           | --
+        updateOne, // input function(updateOne:{ query:{<find Query>}, NewValues:{<New values>} }); | ---
+
+        projection, // data output projection function({ <get:{}>||other  , projection:{ id:-1 , name:1 } })
+
+        auth_users, // type of db functon( get:{} , projection:{} , auth_users:true )       | -
+        auth_sessions, // type of db functon( get:{} , projection:{} , auth_sessions:true ) | NOTE : only one db can be connected at a time only
+        projects // type of db functon( get:{} , projection:{} , projects:true )            | -
+    }
+) {
+
+    // creates a promise and returs the promise callback
+    return new Promise((resolve, reject) => { // inside promise 
+
+        // creates variable need 
+        let typeDupFinter = []; // a variable to hold values of all option's passed | to find duplicates in request
+        let dbDupFinder = []; // a veriable to hold all db types | to find duplicates in request
+        let url = ""; // holdes uil string for db
+        let dbRef; // holdes collections name
+
+        if (get) { typeDupFinter.push('get'); }; //                   | ---
+        if (getOne) { typeDupFinter.push('getOne'); }; //             | --
+        if (getByID) { typeDupFinter.push('getByID'); }; //           | -
+        if (setOne) { typeDupFinter.push('setOne'); }; //             | Adds each options that is passed as options to the function to typeDupFinder array
+        if (setMany) { typeDupFinter.push('setMany'); }; //           | if the array length is not one that means more or less opteins are passed 
+        if (deleteOne) { typeDupFinter.push('gedeleteOnet'); }; //    | then the function will get rejected.
+        if (deleteMany) { typeDupFinter.push('deleteMany'); }; //     | --
+        if (updateOne) { typeDupFinter.push('updateOne'); }; //       | ---
+
+        if (auth_users) { dbDupFinder.push("auth_users") }; //        | -
+        if (auth_sessions) { dbDupFinder.push("auth_sessions") }; //  | same duplication check with db's
+        if (projects) { dbDupFinder.push("projects") }; //            | -
+
+        if (dbDupFinder.length == 1) {
+            if (auth_users) {
+                url = process.env.AUTH_USERS;
+                dbRef = "users";
+            };
+            if (auth_sessions) {
+                url = process.env.AUTH_SESSONS;
+                dbRef = "session";
+            };
+            if (projects) { url = process.env.PROJECTS };
+        } else {
+            reject('DB url err , You can only specify one db at a time !');
+        }
+
+        if (typeDupFinter.length == 1) {
+
+            MongoClient.connect(url, (errDb, resultDb) => {
+
+                if (errDb) { reject(errDb); };
+
+                var db = resultDb.db("auth").collection(dbRef);
+                var sort = { name: 1 };
+                var query;
+                var projectionInput
+                if (projection) {
+                    projectionInput = { projection };
+                } else {
+                    projectionInput = { projection: {} };
+                }
+
+                if (get) {
+                    query = get;
+
+                    db.find(query, projectionInput).sort(sort).toArray((err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (getOne) {
+                    query = get;
+
+                    db.findOne(query, projectionInput).sort(sort).toArray((err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (getByID) {
+                    query = ObjectId(getByID);
+                    if (projection) {
+                        projectionInput = projection;
+                    } else {
+                        projectionInput = {
+                            projection: { _id: 0 }
+                        }
+                    }
+
+                    db.find(query, projectionInput).sort(sort).toArray((err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (setOne) {
+                    query = setOne;
+
+                    db.insertOne(query, (err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (setMany) {
+                    query = setMany;
+
+                    db.insertMany(query, (err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (deleteOne) {
+                    query = deleteOne;
+
+                    db.deleteOne(query, (err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (deleteMany) {
+                    query = deleteMany;
+
+                    db.deleteMany(query, (err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                } else if (updateOne) {
+                    query = updateOne.query;
+                    let values = updateOne.NewValues;
+                    let final = { $set: values };
+
+                    db.updateOne(query, final, (err, result) => {
+                        if (err) { reject(err); };
+                        resolve(result);
+                    });
+
+                }
+
+            });
+
+        } else {
+            reject('type must not be more than 1 or less than 1 , must declare one type of function but not more than one ! ');
+        }
+
+    });
+
+};
+
+
+
+// /* -------------------dev functions------------------ */
+
+export function DbSetDummy() {
+
+    var myobj = [
+        { name: 'lol', address: 'lol 71' },
+        { name: 'Peter', address: 'Lowstreet 4' },
+        { name: 'Amy', address: 'Apple st 652' },
+        { name: 'Hannah', address: 'Mountain 21' },
+        { name: 'Michael', address: 'Valley 345' },
+        { name: 'Sandy', address: 'Ocean blvd 2' },
+        { name: 'Betty', address: 'Green Grass 1' },
+        { name: 'Richard', address: 'Sky st 331' },
+        { name: 'Susan', address: 'One way 98' },
+        { name: 'Vicky', address: 'Yellow Garden 2' },
+        { name: 'Ben', address: 'Park Lane 38' },
+        { name: 'William', address: 'Central st 954' },
+        { name: 'Chuck', address: 'Main Road 989' },
+        { name: 'Viola', address: 'Sideway 1633' }
+    ];
+
+    projects({ setMany: myobj }).then(result => {
+        console.log(result);
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------example--------------------
+
+// function randomID(length) {
+
+//     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
+//     var str = '';
+
+//     if (!length) {
+//         length = 10;
+//     }
+//     for (var i = 0; i < length; i++) {
+//         str += chars[Math.floor(Math.random() * chars.length)];
+//     }
+//     db({ get: {} }).then(a => {
+//         for (let j = 0; j < a.length; j++) {
+//             if (a[j].pid == str) {
+//                 return randomID(length);
+//             }
+//         }
+//         return str;
+//     });
+// }
+
+// MongoClient.connect(url, function(err, db) {  //-------------done
+//   if (err) throw err;
+//   var dbo = db.db("mydb");
+//   dbo.createCollection("customers", function(err, res) {
+//     if (err) throw err;
+//     console.log("Collection created!");
+//     db.close();
+//   });
+// });
+
+// MongoClient.connect(url, function(err, db) { //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myobj = { name: "Company Inc", address: "Highway 37" };
+//     dbo.collection("customers").insertOne(myobj, function(err, res) {
+//       if (err) throw err;
+//       console.log("1 document inserted");
+//       db.close();
+//     });
+//   });
+
+
+// MongoClient.connect(url, function(err, db) {   //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     dbo.collection("customers").findOne({}, function(err, result) {
+//       if (err) throw err;
+//       console.log(result.name);
+//       db.close();
+//     });
+//   });
+
+// MongoClient.connect(url, function(err, db) {  //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myobj = [
+//       { name: 'John', address: 'Highway 71'},
+//       { name: 'Peter', address: 'Lowstreet 4'},
+//       { name: 'Amy', address: 'Apple st 652'},
+//       { name: 'Hannah', address: 'Mountain 21'},
+//       { name: 'Michael', address: 'Valley 345'},
+//       { name: 'Sandy', address: 'Ocean blvd 2'},
+//       { name: 'Betty', address: 'Green Grass 1'},
+//       { name: 'Richard', address: 'Sky st 331'},
+//       { name: 'Susan', address: 'One way 98'},
+//       { name: 'Vicky', address: 'Yellow Garden 2'},
+//       { name: 'Ben', address: 'Park Lane 38'},
+//       { name: 'William', address: 'Central st 954'},
+//       { name: 'Chuck', address: 'Main Road 989'},
+//       { name: 'Viola', address: 'Sideway 1633'}
+//     ];
+//     dbo.collection("customers").insertMany(myobj, function(err, res) {
+//       if (err) throw err;
+//       console.log("Number of documents inserted: " + res.insertedIds);
+//       ids = res;
+//       db.close();
+//     });
+//   });
+
+// MongoClient.connect(url, function(err, db) {    //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myobj = [
+//       { _id: 154, name: 'Chocolate Heaven'},
+//       { _id: 155, name: 'Tasty Lemon'},
+//       { _id: 156, name: 'Vanilla Dream'}
+//     ];
+//     dbo.collection("products").insertMany(myobj, function(err, res) {
+//       if (err) throw err;
+//       console.log(res);
+//       db.close();
+//     });
+//   });
+
+
+// MongoClient.connect(url, function(err, db) {
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     dbo.collection("customers").find({}, { projection: { _id: 0, name: 1, address: 1 } }).toArray(function(err, result) {
+//       if (err) throw err;
+//       ids = result;
+//       db.close();
+//     });
+//   });
+
+// MongoClient.connect(url, function(err, db) {   //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var query = { address: "Park Lane 38" };
+//     dbo.collection("customers").find(query).toArray(function(err, result) {
+//       if (err) throw err;
+//       ids = result;
+//       db.close();
+//     });
+//   });
+
+// MongoClient.connect(url, function(err, db) {   //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myquery = { address: 'Mountain 21' };
+//     dbo.collection("customers").deleteOne(myquery, function(err, obj) {
+//       if (err) throw err;
+//       console.log(obj)
+//       db.close();
+//     });
+//   });
+
+// MongoClient.connect(url, function(err, db) {   //-----------------done
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myquery = { };
+//     dbo.collection("customers").deleteMany(myquery, function(err, obj) {
+//       if (err) throw err;
+//       console.log(obj);
+//       db.close();
+//     });
+//   });
+
+
+
+// MongoClient.connect(url, function(err, db) {
+//     if (err) throw err;
+//     var dbo = db.db("mydb");
+//     var myquery = { address: "Canyon 123" };
+//   var newvalues = { $set: {name: "Mickey", address: "Canyon 1235" } };
+//   dbo.collection("customers").updateOne(myquery, newvalues, function(err, res) {
+//     if (err) throw err;
+//     console.log("1 document updated");
+//     db.close();
+//   });
+//   });
