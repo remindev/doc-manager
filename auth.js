@@ -3,7 +3,7 @@ import { initializeApp, applicationDefault } from 'firebase-admin/app'; // fireb
 import { getAuth } from 'firebase-admin/auth'; // authentication from firebase admin sdk
 
 import { db, userObj } from './db.js'; // databese || mongodb || own Module
-import { folderCheck } from './files.js' // fs || owm module
+import { folderCheck, userFilesChecker } from './files.js' // fs || owm module
 
 
 // initializing firebase admin sdk
@@ -67,7 +67,7 @@ export function authTocken(req, res, next) {
 
                             db({ // creates a user 
                                 setOne: {
-                                    img: user.photoURL,
+                                    imgUrl: user.photoURL,
                                     uid: user.uid,
                                     email: user.email,
                                     phone: user.phoneNumber,
@@ -98,11 +98,13 @@ export function authTocken(req, res, next) {
                                 });
 
                             });
-                            
+
                         };
 
                         // checks if folder named this users uid is exist or not, If not creates one 
                         folderCheck({ folderName: `users/${uid}`, createFolder: true });
+
+                        userFilesChecker(uid);
 
                     });
 

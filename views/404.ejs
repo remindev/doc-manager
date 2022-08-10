@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not found</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Righteous&family=Source+Code+Pro&display=swap');
+
+        * {
+            margin: 0;
+            outline: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: small;
+
+            --bg: #121212;
+            --text-color: #F7F8F8;
+            --common-font-color: white;
+            --common-font-color-invert: black;
+            --common-border: rgba(71, 71, 71, 0.459);
+            --common-input-bg: rgb(35, 35, 39);
+            --common-highlight-bg: rgb(35, 35, 39);
+            --common-icn-filter: invert(100%);
+            --common-icn-filter-invert: invert(0%);
+            --common-txt-p-color: rgb(190, 190, 190);
+            --common-btn-color: rgb(249, 255, 255);
+            --common-box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.267);
+            --common-on-color: aqua;
+
+            --common-on-field-color: #222222;
+
+            --bg-styled: var(--bg);
+
+
+            color: var(--common-font-color);
+
+        }
+
+        html {
+            height: 100%;
+            background-color: var(--bg);
+        }
+
+        body {
+            height: 100%;
+            width: 80%;
+            margin-left: 10%;
+        }
+
+        .title {
+            background-color: var(--bg);
+            height: 40px;
+            position: relative;
+            top: 50px;
+        }
+
+        .title span {
+            font-size: 60px;
+        }
+
+        .message{
+            margin-top: 10px;
+            font-size: 25px;
+        }
+
+        .possibilities {
+            margin-top: 20px;
+        }
+
+        .possibilities ul {
+            margin-left: 15px;
+            margin-top: 10px;
+        }
+
+        .txt.hed {
+            font-size: medium;
+        }
+
+        .buttons { 
+            margin-top: 30px;
+        }
+
+        .buttons button{
+            width: 120px;
+            height: 40px;
+            border-radius: 5px;
+            color: var(--common-font-color);
+            background-color: rgb(131, 49, 148);
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="title">
+        <span>Oops !</span>
+
+        <div class="message">
+            We can't seem to find the page you are looking for.
+        </div>
+
+        <div class="possibilities">
+            <p class="txt hed">Possible causes</p>
+            <ul>
+                <li>URL is entered incorrectly</li>
+                <li>File you are searching might me deleted or URL might me changed</li>
+                <li>Some internal erros</li>
+                <li>If you see this page in currect URL or You think this is our issue feel free to contact us</li>
+            </ul>
+        </div>
+    
+        <div class="buttons">
+            <button onclick="window.location.href = '/'">Home page</button>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

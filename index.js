@@ -10,7 +10,7 @@ const mongodbSesson = ConnectMongoDBSession(session);
 import { db } from './db.js';
 import { authTocken, auth, authMustLogin, userSessonsByUID } from './auth.js';
 import { dateToReadable, updateUserToDb, deviceLayout } from './functions.js';
-import { folderCheck } from './files.js';
+import { folderCheck, fs } from './files.js';
 
 // initializing express
 const app = express();
@@ -63,7 +63,28 @@ app.listen(port, () => {
   console.log(`Now listening on port ${port}`);
 });
 
+app.get('/usr/:imgPathName', (req, res) => {
 
+  let imgName = req.params.imgPathName;
+
+  if (imgName) {
+
+    if(fs.existsSync(`${__dirname}/publicUserContents/images/${imgName}`)){
+
+      res.sendFile(`${__dirname}/publicUserContents/images/${imgName}`);
+
+    }else{
+        res.render("404");
+    };
+
+    
+  } else {
+
+    res.status(400).send("Bad request");
+
+  };
+
+});
 
 // /* -------------common routes------------- */
 
@@ -171,26 +192,36 @@ app.post("/api/auth-login-sign", authTocken, auth, (req, res) => {
 app.post("/api/manage", authMustLogin, (req, res) => {
 
   updateUserToDb(req)
-  .then(resp=>{
+    .then(resp => {
 
-    res.send({response:{
-      type:"sucess",
-      data:resp
-    }});
+      res.send({
+        response: {
+          type: "sucess",
+          data: resp
+        }
+      });
 
-  })
-  .catch(err=>{
+    })
+    .catch(err => {
 
-    res.send({response:{
-      type:"error",
-      data:err
-    }});
-    
-  });
+      res.send({
+        response: {
+          type: "error",
+          data: err
+        }
+      });
+
+    });
 
 });
 
+// ---------- 404 ---------
 
+app.use((req,res,next)=>{
+
+  res.status(404).render("404")
+
+});
 
 // /* ----------------- for development help! ---------------- */
 // must remved for producton
@@ -202,8 +233,10 @@ app.post("/api/manage", authMustLogin, (req, res) => {
 
 app.get('/api/view/all', (req, res) => {
 
-  db({ get: {} ,auth_users:true  }).then(result => {
+  db({ get: {}, auth_users: true }).then(result => {
+
     res.send(result);
+    
   });
 
 });

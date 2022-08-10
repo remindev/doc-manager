@@ -7,7 +7,7 @@ export class userObj {
     // this class is an object constructor
     // this class creates user object according to input 
 
-    constructor({ uid, name, dob, email, gender, img, phone, createdAt, lastSignIn, bio, provider, role, disabled, settings, custom }) {
+    constructor({ uid, name, dob, email, gender, img, imgUrl, phone, createdAt, lastSignIn, bio, provider, role, disabled, settings, custom }) {
         // assining value to constructor object from data input
 
         this.uid = uid; // creats user id field   < "fvytr215212vt2vyt1r2v" > type = string
@@ -16,6 +16,7 @@ export class userObj {
         this.gender = gender; // creates genetr field  < "male" > type = string
         this.email = email; // creates email field  < "email@example.com" > type = string
         this.img = img; // creates image url field  < "https://example.image.com/url" > type = string
+        this.imgUrl = imgUrl // creates image url field  < "https://example.image.com/url" > type = string
         this.phone = phone; // creates phone number field < 90000001111 > type = number
         this.createdAt = createdAt; // creates a date obj for created at  < date > type = string | date object
         this.lastSignIn = lastSignIn; // creates a date object for last sign in < date > type = string | date object
