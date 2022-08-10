@@ -123,27 +123,41 @@ export function userFilesChecker(userID) {
                 // requesting to image url for image
                 request(userObj.imgUrl)
 
+                    // creates a data stream and saves image file
                     .pipe(fs.createWriteStream(`${__dirname}/users/${userID}/pp.png`))
                     .on('close', (event) => {
 
                         // user's profile picture image saved...
-                        let path = `${__dirname}/publicUserContents/images`;
-                        let pathOfUserPP = `${__dirname}/users/${userID}/pp.png`;
-                        let publicImageName = randomId(20, path);
 
+                        let path = `${__dirname}/publicUserContents/images`; // path of public folder which contains all users profile image
+                        let pathOfUserPP = `${__dirname}/users/${userID}/pp.png`; // path of private users folders which contains original user profile image
+                        let publicImageName = randomId(20, path); // new random name for image ( path is provided to find duplicate and prevent duplicate naming )
+
+                        // reads image from provate users folder
                         fs.readFile(pathOfUserPP, (err, data) => {
+                            // creating file copy and updating name to db....
 
+                            // logs if find an err in reading  image
                             if (err) { console.log(err); };
 
+                            // saves image in new name to public user content folder with newly created random name
                             fs.writeFile(`${path}/${publicImageName}.png`, data, res => {
+                                // saving image to public folder...
 
+                                // saves the new random name to db by the path of url wich can be used to get image for client
                                 db({
                                     updateOne: {
                                         query: { uid: userID },
                                         NewValues: { img: `/usr/${publicImageName}.png` }
                                     },
                                     auth_users: true
-                                })
+                                    // saving data to db....
+                                }).catch(err=>{
+                                    // err from updating dat a to db...
+                                    console.log(err);
+                                });
+
+                                // public copy created and updated url to db....
 
                             });
 
@@ -153,39 +167,51 @@ export function userFilesChecker(userID) {
                     });
 
             } else {
+                // runs if the image exists 
 
+                // here we check that this image is in db by its public folder name | the only way we can acess by client
                 db({
                     get: {
                         uid: userID
                     },
-                    auth_users:true
-                }).then(res=>{
+                    auth_users: true
+                    // getting user data from db....
+                }).then(res => {
 
-                    if(!res.img){
-                      
+                    if (!res.img) {
+                        // runs if image url not exist in db
+
                         // user's profile picture image saved...
-                        let path = `${__dirname}/publicUserContents/images`;
-                        let pathOfUserPP = `${__dirname}/users/${userID}/pp.png`;
-                        let publicImageName = randomId(20, path);
+                        let path = `${__dirname}/publicUserContents/images`; // path of public folder which contains all users profile image
+                        let pathOfUserPP = `${__dirname}/users/${userID}/pp.png`; // path of private users folders which contains original user profile image
+                        let publicImageName = randomId(20, path); // new random name for image ( path is provided to find duplicate and prevent duplicate naming )
 
+                        // reads image from provate users folder
                         fs.readFile(pathOfUserPP, (err, data) => {
 
+                            // logs if find an err in reading  image
                             if (err) { console.log(err); };
 
+                            // saves image in new name to public user content folder with newly created random name
                             fs.writeFile(`${path}/${publicImageName}.png`, data, res => {
 
+                                // saves the new random name to db by the path of url wich can be used to get image for client
                                 db({
                                     updateOne: {
                                         query: { uid: userID },
                                         NewValues: { img: `/usr/${publicImageName}.png` }
                                     },
                                     auth_users: true
-                                })
+                                    // saving data to db....
+                                }).catch(err=>{
+                                    // err from updating dat a to db...
+                                    console.log(err);
+                                });
 
                             });
 
                         });
-                        
+
                     };
 
                 })
@@ -194,7 +220,7 @@ export function userFilesChecker(userID) {
 
         };
 
-    }).then(err => {
+    }).catch(err => {
         // err at getting user data from db
         console.log(err);
     });
