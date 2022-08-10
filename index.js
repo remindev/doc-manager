@@ -10,6 +10,7 @@ const mongodbSesson = ConnectMongoDBSession(session);
 import { db } from './db.js';
 import { authTocken, auth, authMustLogin, userSessonsByUID } from './auth.js';
 import { dateToReadable, updateUserToDb, deviceLayout } from './functions.js';
+import { folderCheck } from './files.js';
 
 // initializing express
 const app = express();
