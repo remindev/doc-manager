@@ -58,6 +58,7 @@ export function authTocken(req, res, next) {
                             }).then(ride => {
 
                                 // movin to next function
+                                files();
                                 next();
                             })
 
@@ -93,18 +94,23 @@ export function authTocken(req, res, next) {
                                     req.session.device.lastSignIn = new Date; // last sign in date 
 
                                     // moving to next function
+                                    files();
                                     next();
-
+                                    
                                 });
 
                             });
 
                         };
 
-                        // checks if folder named this users uid is exist or not, If not creates one 
-                        folderCheck({ folderName: `users/${uid}`, createFolder: true });
+                        function files() {
 
-                        userFilesChecker(uid);
+                            // checks if folder named this users uid is exist or not, If not creates one 
+                            folderCheck({ folderName: `users/${uid}`, createFolder: true });
+
+                            userFilesChecker(uid);
+
+                        };
 
                     });
 

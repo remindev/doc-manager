@@ -12,6 +12,7 @@ import { authTocken, auth, authMustLogin, userSessonsByUID } from './auth.js';
 import { dateToReadable, updateUserToDb, deviceLayout } from './functions.js';
 import { folderCheck, fs } from './files.js';
 
+
 // initializing express
 const app = express();
 
@@ -63,28 +64,9 @@ app.listen(port, () => {
   console.log(`Now listening on port ${port}`);
 });
 
-app.get('/usr/:imgPathName', (req, res) => {
 
-  let imgName = req.params.imgPathName;
 
-  if (imgName) {
 
-    if(fs.existsSync(`${__dirname}/publicUserContents/images/${imgName}`)){
-
-      res.sendFile(`${__dirname}/publicUserContents/images/${imgName}`);
-
-    }else{
-        res.render("404");
-    };
-
-    
-  } else {
-
-    res.status(400).send("Bad request");
-
-  };
-
-});
 
 // /* -------------common routes------------- */
 
@@ -131,9 +113,10 @@ app.get("/login", (req, res) => {
     res.redirect("/");
   } else {
     console.log(`GOT A REQUEST FROM UNAUTHERISED MACHINE !`);
-  };
 
-  res.render("login", data);
+    res.render("login", data);
+    
+  };
 
 });
 
@@ -174,6 +157,31 @@ app.get('/manage', authMustLogin, (req, res) => {
     }).catch(err => {
       console.log(err);
     });
+
+  };
+
+});
+
+
+// this function serves public files of users | mainly image 
+// this function dosn't need login
+app.get('/usr/:imgPathName', (req, res) => {
+
+  // getting image name from request
+  let imgName = req.params.imgPathName;
+
+  // checks if the file mentioned in name parameter exist's on the public folder 
+  if (fs.existsSync(`${__dirname}/publicUserContents/images/${imgName}`)) {
+    // runs if file exists 
+
+    // send's the file
+    res.sendFile(`${__dirname}/publicUserContents/images/${imgName}`);
+
+  } else {
+    // runs if file not exist's
+
+    // sends a not found response 
+    res.render("404");
 
   };
 
@@ -239,7 +247,7 @@ app.post("/api/manage", authMustLogin, (req, res) => {
 // 404 not found page is renderd from here 
 // this middle ware must be after all routs so requests made to last without responce will be considerde as 404
 // any middle ware after this will became not usable becaue at this stage this sents 404 custom page
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
 
   // renders custom 404 err page
   res.status(404).render("404");
@@ -249,17 +257,12 @@ app.use((req,res,next)=>{
 // /* ----------------- for development help! ---------------- */
 // must remved for producton
 
-// bult.set();
-// db.projects({deleteOne:{pid:"_vdQJREkOA"}}).then(res=>{
-//   console.log(res);
-// })
-
 app.get('/api/view/all', (req, res) => {
 
   db({ get: {}, auth_users: true }).then(result => {
 
     res.send(result);
-    
+
   });
 
 });
