@@ -182,18 +182,34 @@ app.get('/manage', authMustLogin, (req, res) => {
 
 // /* ---------------API'S------------------ */
 
+// this api post request handles auth 
+// this is the function that signin users 
 app.post("/api/auth-login-sign", authTocken, auth, (req, res) => {
 
-  res.send({ "message": "got it done auth" });
+  // there is no other function here because the midlle ware added to this contains function nessasery for login and authentication
+  // hence this function runs afer login is complete
+
+  // sends login sucess login message
+  res.send({ "message": "login sucess" });
+
+  // logs new user email to the console
   console.log("user IN => " + req.user.data.email);
 
 });
 
+// this post request handles manage user api
+// thsi function is responsible to change user values like name,bio,dob... etc..
 app.post("/api/manage", authMustLogin, (req, res) => {
 
+  // this api is only avilable to logged in users
+  // ("...", authMustLogin ,(..)=>{}) is were we check user is logged in or not
+
+  // requst is end to user data update function
   updateUserToDb(req)
     .then(resp => {
+      // update sucess fully....
 
+      // sends response with sucess message
       res.send({
         response: {
           type: "sucess",
@@ -203,7 +219,9 @@ app.post("/api/manage", authMustLogin, (req, res) => {
 
     })
     .catch(err => {
+      // err while updating users data....
 
+      // sends response with err message
       res.send({
         response: {
           type: "error",
@@ -215,11 +233,16 @@ app.post("/api/manage", authMustLogin, (req, res) => {
 
 });
 
+
 // ---------- 404 ---------
 
+// 404 not found page is renderd from here 
+// this middle ware must be after all routs so requests made to last without responce will be considerde as 404
+// any middle ware after this will became not usable becaue at this stage this sents 404 custom page
 app.use((req,res,next)=>{
 
-  res.status(404).render("404")
+  // renders custom 404 err page
+  res.status(404).render("404");
 
 });
 
