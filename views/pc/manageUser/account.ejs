@@ -29,16 +29,7 @@
                                     <p class="txt dim">Drag and drop</p>
                                     <p class="txt dim">or</p>
                                     <p class="fileChoose" onclick="manageuser.chooseFile(this)">Choose file</p>
-                                    <input type="file" id="fileInput" hidden>
-
-                                    <script>
-                                        let inputObj = document.querySelector("input#fileInput");
-
-                                        inputObj.addEventListener('change', e => {
-                                            let files = e.target.files;
-                                            manageuser.finalImgSumbit(files);
-                                        })
-                                    </script>
+                                    <input type="file" onchange="manageuser.finalImgSumbit(this.event.target.files)" id="fileInput" hidden>
 
                                 </div>
                 </li>
@@ -675,7 +666,7 @@
                     reader.onload = (e) => {
                         console.log(reader.result)
 
-
+                        
 
                     };
 
