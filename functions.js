@@ -4,20 +4,25 @@ import DeviceDetector from "device-detector-js"; // importing device detector fo
 const __dirname = process.cwd(); // defines currently working directory
 const deviceDetector = new DeviceDetector(); // initializes device detector functon
 
+/**
+ * This function make a device object from user-agent string collected from request object,
+ * This is a middleware function
+ * 
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {object} next - next function
+ */
 export function deviceLayout(req, res, next) {
-    // function adds .device object to main request object
-    // is a middleware function
-    // adds layouts needed for ejs to newly created .device object 
 
     //parsing user agent from request
     let device = deviceDetector.parse(req.headers['user-agent']).device.type;
 
     // check if parsing retuns an er or not exist device object
-    if (!device) { 
+    if (!device) {
 
         // set other as device value
         device = {
-            device:"other"
+            device: "other"
         };
 
     };
@@ -45,7 +50,7 @@ export function deviceLayout(req, res, next) {
 
         // adds layout folder name
         layouts.layout = `${__dirname}/views/base/base-c`;
-        device.device = 'other'; 
+        device.device = 'other';
 
     };
 
@@ -57,11 +62,15 @@ export function deviceLayout(req, res, next) {
 
 };
 
+/**
+ * This function convets string date values to readale 
+ * 
+ * @param {string} date - date string
+ * @returns {string} Readable date Formatted like < DD - MM - YYYY > e.g.. 1 january 2020
+ */
 export function dateToReadable(date) {
-    // convert date string to date object 
-    // which we can convert into many date and tyme forms 
 
-    // list fo monts in an array || output expected format example.. 1 january 2020 - 10:25 
+    /* list fo monts in an array || output expected format example.. 1 january 2020 - 10:25 */
     let months = [
         "January",
         "February",
@@ -96,6 +105,13 @@ export function dateToReadable(date) {
 
 };
 
+
+/**
+ * Generates a random id with length control
+ * 
+ * @param {number} length - Length of returning id
+ * @returns - random ID e.g.. randomID(10) => AdF6ui-_oD 
+ */
 function randomId(length) {
     // this function creates a reandom id 
     // controll id length by providing length to function (< length limit >);
@@ -382,10 +398,14 @@ export function updateUserToDb(requst) {
 
                 };
 
-                function dbType(typeToUpdate, dataToUpdate) {
+                function dbType(typeToUpdate, dataToUpdate, respData) {
                     // internal function
                     // function to update a type of data from user object
                     // function(< type of data to be updated >, < data of type to be updated >)
+
+                    if(!respData){
+                        respData = null;
+                    };
 
                     db({
                         updateOne: {
@@ -400,7 +420,10 @@ export function updateUserToDb(requst) {
                         // runs when update complete
 
                         // resolve sucess message after update
-                        resolve(`${typeToUpdate} updated sucessfully`);
+                        resolve({
+                            first: `${typeToUpdate} updated sucessfully`,
+                            second: respData
+                        });
                         // update complete..
 
                     }).catch(err => {
@@ -545,7 +568,7 @@ export function updateUserToDb(requst) {
 
                         upExistingData.push(dataCreator); // adding data to custom data's list array 
 
-                        dbType("custom", upExistingData); // calling function to add user data with new user data objects
+                        dbType("custom", upExistingData, id); // calling function to add user data with new user data objects
 
                         // adding used data ...
 
@@ -611,7 +634,6 @@ export function updateUserToDb(requst) {
     });
 
 };
-
 
 
 

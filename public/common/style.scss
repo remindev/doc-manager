@@ -54,6 +54,11 @@ html[data-theme='light'] {
   --common-code-string: rgb(255, 0, 0);
   --common-code-background-txt: black;
 
+  --common-scroll-track: #ffffff;
+  --common-scroll-thumb: rgb(161, 161, 161);
+  --common-scroll-thumb-hover: #555;
+
+
   color: var(--common-font-color);
 }
 
@@ -84,6 +89,10 @@ html[data-theme='dark'] {
   --common-code-string: rgb(248, 114, 114);
   --common-code-background-txt: rgb(253, 253, 253);
 
+  --common-scroll-track: #020202;
+  --common-scroll-thumb: rgb(58, 58, 58);
+  --common-scroll-thumb-hover: #555;
+
   color: var(--common-font-color);
 }
 
@@ -94,6 +103,28 @@ html {
 
 body {
   height: 100%;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--common-scroll-track);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--common-scroll-thumb);
+  // border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--common-scroll-thumb-hover);
 }
 
 

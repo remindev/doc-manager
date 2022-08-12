@@ -4,11 +4,29 @@ import { MongoClient, ObjectId } from 'mongodb'; // imports mongodb
 export var ObjId = ObjectId; // exprting Object id from mongodb as ObjId
 
 export class userObj {
-    // this class is an object constructor
-    // this class creates user object according to input 
+    /**
+     * This function is a object creater for user
+     * 
+     * @param {object} userData - User ID
+     * @param {string} userData.name - User Name
+     * @param {string} userData.dob - Date of berth
+     * @param {string} userData.email - Email adress
+     * @param {string} userData.gender - Gender
+     * @param {string} userData.img - Image URL from this server
+     * @param {string} userData.imgUrl - Image URL from extenal servers
+     * @param {number} userData.phone - Phone number
+     * @param {string} userData.createdAt - Date of creation 
+     * @param {string} userData.lastSignIn - Date of last sign in
+     * @param {string} userData.bio - Bio of user
+     * @param {string} userData.provider - Provider name of login service
+     * @param {string} userData.role - Role of user | admin or user
+     * @param {boolean} userData.disabled - User disabled or not
+     * @param {Array} userData.settings - Store's custom settings of user
+     * @param {Array} userData.custom - Custom contact option for user
+     */
 
     constructor({ uid, name, dob, email, gender, img, imgUrl, phone, createdAt, lastSignIn, bio, provider, role, disabled, settings, custom }) {
-        // assining value to constructor object from data input
+        /* assining value to constructor object from data input */
 
         this.uid = uid; // creats user id field   < "fvytr215212vt2vyt1r2v" > type = string
         this.name = name; // creates name field   < "Example name" > type = string
@@ -37,13 +55,31 @@ export class userObj {
 
 };
 
+
+/**
+ * This function controlls all data request to db other than sessions and
+ * this is the main function that controlls the db communications and simplifis it and
+ * reads, writes, delete and update data and returnes a promise callback 
+ * 
+ * @param {object} serverActionsAndOptions
+ * @param {object} serverActionsAndOptions.get - input function(get:{ <bulk find query> });  
+ * @param {object} serverActionsAndOptions.getOne - input function(getOne:{ <find query> });
+ * @param {object} serverActionsAndOptions.getByID - input function(getById:{ <id> });       
+ * @param {object} serverActionsAndOptions.setOne - input function(setOne:{ <data to save> });           
+ * @param {object} serverActionsAndOptions.setMany - input function(setMany:{[ <data to save>},{<data to save>} ]); 
+ * @param {object} serverActionsAndOptions.deleteOne - input function(deleteOne:{ <find query> }); 
+ * @param {object} serverActionsAndOptions.deleteMany - input function(deleteMany:{ < bulk find query> });  
+ * @param {object} serverActionsAndOptions.updateOne - input function(updateOne:{ query:{<find Query>}, NewValues:{<New values>} }); 
+ * @param {object} serverActionsAndOptions.projection - data output projection function({ <get:{}>||other  , projection:{ id:-1 , name:1 } })
+ * @param {object} serverActionsAndOptions.auth_users - type of db functon( get:{} , projection:{} , auth_users:true )  
+ * @param {object} serverActionsAndOptions.auth_sessions - type of db functon( get:{} , projection:{} , auth_sessions:true 
+ * @param {object} serverActionsAndOptions.projects - type of db functon( get:{} , projection:{} , projects:true )   
+ */
+
 export function db(
-    // this function controlls all data request to db other than sessions  
-    // this is the main function that controlls the db communications and simplifis it 
-    // reads, writes, delete and update data and returnes a promise callback 
     
     // data inputs of function 
-    { 
+    {
         get, // input function(get:{ <bulk find query> });                                          | ---
         getOne, // input function(getOne:{ <find query> });                                         | --
         getByID, // input function(getById:{ <id> });                                               | -
@@ -64,10 +100,12 @@ export function db(
     // creates a promise and returs the promise callback
     return new Promise((resolve, reject) => { // inside promise 
 
-        // creates variable need 
-        let typeDupFinter = []; // a variable to hold values of all option's passed | to find duplicates in request
+
+        let typeDupFinter = []; /** a variable to hold values of all option's passed | to find duplicates in request */
         let dbDupFinder = []; // a veriable to hold all db types | to find duplicates in request
         let url = ""; // holdes uil string for db
+
+        /** @type {string} */
         let dbRef; // holdes collections name
 
         if (get) { typeDupFinter.push('get'); }; //                   | ---

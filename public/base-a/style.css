@@ -52,6 +52,7 @@
   border-right: 1px solid var(--common-border);
   z-index: 5;
   background-color: var(--bg);
+  overflow-x: hidden;
 }
 .partials.pc.manage.sidebar img.profile-dum {
   width: 80px;
@@ -97,10 +98,14 @@
   color: black;
   font-weight: 700;
 }
+.partials.pc.manage.sidebar .spacer {
+  margin-bottom: 100px;
+}
 
 .page.pc.manage {
   position: absolute;
-  top: 45px;
+  top: 0px;
+  margin-top: 45px;
   left: 200px;
   width: calc(100% - 200px);
 }
@@ -195,6 +200,63 @@
   width: var(--common-icn-width);
   position: absolute;
   right: 10px;
+  cursor: pointer;
+}
+.page.pc.manage.account .acc_ount ul li.closedImg {
+  background-color: transparent;
+  border: 1px dashed transparent;
+}
+.page.pc.manage.account .acc_ount ul li.closedImg button.forImg {
+  display: initial;
+  position: relative;
+  cursor: pointer;
+  height: 100%;
+  width: 100px;
+  border: none;
+  border-radius: 2px;
+  border: 1px solid var(--common-border);
+  background-color: transparent;
+  color: var(--common-font-color);
+}
+.page.pc.manage.account .acc_ount ul li.closedImg img.profile-dum {
+  display: initial;
+  position: relative;
+  height: 100px;
+  width: auto;
+  filter: none;
+  cursor: default;
+  border-radius: 3px;
+  padding: 5px;
+  border: 1px solid var(--common-border);
+}
+.page.pc.manage.account .acc_ount ul li.closedImg img.profile-dum.filter {
+  filter: var(--common-icn-filter-invert);
+}
+.page.pc.manage.account .acc_ount ul li.closedImg .actions {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li.openImg {
+  height: 150px;
+  border: 1px dashed var(--common-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page.pc.manage.account .acc_ount ul li.openImg img.profile-dum {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li.openImg button.forImg {
+  display: none;
+}
+.page.pc.manage.account .acc_ount ul li.openImg .actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.page.pc.manage.account .acc_ount ul li.openImg .actions .fileChoose {
   cursor: pointer;
 }
 .page.pc.manage.account .acc_ount ul li.on {

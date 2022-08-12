@@ -12,8 +12,37 @@
             <div class="title">
                 Basic info
             </div>
-            <ul>
-                <li ondblclick="manageuser.basicInfo(this,'edit')">
+            <ul id="Bsic_User_Data">
+                <li class="closedImg" id="Edit_Img">
+                    <% if(user.img){ %>
+                        <img src="<%=user.img%>" class="profile-dum">
+                        <% }else{%>
+                            <img src="/icn/user.png" class="profile-dum filter">
+                            <%};%>
+
+                                <button class="forImg" onclick="manageuser.editImg(this.parentElement,'open')">Edit
+                                    Profile</button>
+
+                                <div class="actions" ondragover="manageuser.allowDrop(event)"
+                                    ondrop="manageuser.imageUpdate(event)">
+
+                                    <p class="txt dim">Drag and drop</p>
+                                    <p class="txt dim">or</p>
+                                    <p class="fileChoose" onclick="manageuser.chooseFile(this)">Choose file</p>
+                                    <input type="file" id="fileInput" hidden>
+
+                                    <script>
+                                        let inputObj = document.querySelector("input#fileInput");
+
+                                        inputObj.addEventListener('change', e => {
+                                            let files = e.target.files;
+                                            manageuser.finalImgSumbit(files);
+                                        })
+                                    </script>
+
+                                </div>
+                </li>
+                <li id="Edit_name" ondblclick="manageuser.basicInfo(this,'edit')">
 
                     <div class="tit_le txt dim">
                         <span id="type_basic-info_xpdfx">
@@ -33,7 +62,7 @@
                         class="img right">
                 </li>
 
-                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                <li id="User_email" ondblclick="manageuser.basicInfo(this,'edit')">
                     <div class="tit_le txt dim">
                         <span id="type_basic-info_xpdfx">
                             &nbsp; Email &nbsp;
@@ -57,7 +86,7 @@
                         class="img right">
                 </li>
 
-                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                <li id="Edit_Bio" ondblclick="manageuser.basicInfo(this,'edit')">
                     <div class="tit_le txt dim">
                         <span id="type_basic-info_xpdfx">
                             &nbsp; Bio &nbsp;
@@ -75,7 +104,7 @@
                         class="img right">
                 </li>
 
-                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                <li id="Edit_Phone" ondblclick="manageuser.basicInfo(this,'edit')">
                     <div class="tit_le txt dim">
                         <span id="type_basic-info_xpdfx">
                             &nbsp; Phone &nbsp;
@@ -93,7 +122,7 @@
                         class="img right">
                 </li>
 
-                <li ondblclick="manageuser.basicInfo(this,'edit')">
+                <li id="Edit_Dob" ondblclick="manageuser.basicInfo(this,'edit')">
                     <div class="tit_le txt dim">
                         <span id="type_basic-info_xpdfx">
                             &nbsp; Dob &nbsp;
@@ -119,7 +148,7 @@
             </ul>
         </div>
 
-        <div class="user-data">
+        <div class="user-data" id="Custom_Fields">
             <div class="title">Other contact info</div>
             <div class="right">
                 <img src="/icn/add.svg" class="icn"
@@ -130,39 +159,39 @@
 
                 <% user.custom.forEach((element,index)=> { %>
 
-                    <% if(!element){return 0;}; %> 
+                    <% if(!element){return 0;}; %>
 
-                    <div class="custom-field-cont" id="custom-field">
-                        <div class="custom-disp-cont">
-                            <span class="txt dim field">
-                                <%=element.name%>
-                            </span>
-                            <span class="txt dim">&nbsp; : &nbsp;</span>
-                            <span class="name">
-                                <%=element.data%>
-                            </span>
+                        <div class="custom-field-cont" id="custom-field">
+                            <div class="custom-disp-cont">
+                                <span class="txt dim field">
+                                    <%=element.name%>
+                                </span>
+                                <span class="txt dim">&nbsp; : &nbsp;</span>
+                                <span class="name">
+                                    <%=element.data%>
+                                </span>
+                            </div>
+                            <div class="action">
+                                <img src="/icn/edit.svg"
+                                    onclick="manageuser.contactInfo(this.parentElement.parentElement,'edit')">
+                                <img src="/icn/delete.svg"
+                                    onclick="manageuser.contactInfo(this.parentElement.parentElement,'remove')">
+                            </div>
+                            <div class="input-cont">
+                                <div class="err">Edit mode</div>
+                                <input type="text" placeholder="Field Name" value="<%=element.name%>">
+                                <input type="text" placeholder="Value" value="<%=element.data%>">
+                                <input type="hidden" value="<%= element.id %>">
+                            </div>
+                            <div class="btn-cont">
+                                <button
+                                    onclick="manageuser.contactInfo(this.parentElement.parentElement,'cancel')">cancel</button>
+                                <button
+                                    onclick="manageuser.contactInfo(this.parentElement.parentElement,'update')">save</button>
+                            </div>
                         </div>
-                        <div class="action">
-                            <img src="/icn/edit.svg"
-                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'edit')">
-                            <img src="/icn/delete.svg"
-                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'remove')">
-                        </div>
-                        <div class="input-cont">
-                            <div class="err">Edit mode</div>
-                            <input type="text" placeholder="Field Name" value="<%=element.name%>">
-                            <input type="text" placeholder="Value" value="<%=element.data%>">
-                            <input type="hidden" value="<%= element.id %>">
-                        </div>
-                        <div class="btn-cont">
-                            <button
-                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'cancel')">cancel</button>
-                            <button
-                                onclick="manageuser.contactInfo(this.parentElement.parentElement,'update')">save</button>
-                        </div>
-                    </div>
 
-                <% }); %>
+                        <% }); %>
 
             </div>
 
@@ -371,6 +400,9 @@
             };
 
         },
+        /** 
+         * @param {Document} obj
+         */
         contactInfo: function (obj, action) {
 
             let mainObj = obj;
@@ -386,6 +418,8 @@
             let outputValue = mainObj.getElementsByClassName("custom-disp-cont")[0].getElementsByTagName("span")[2];
 
             let outDispObj = mainObj.getElementsByClassName("err")[0];
+
+            let allBtns = mainObj.getElementsByTagName("button");
 
             let limit = {
                 field: 15,
@@ -450,12 +484,18 @@
                 mainObj.setAttribute("class", "custom-field-cont on");
             };
 
-            function cancel() {
+            function cancel(ReturnValue) {
                 mainObj.setAttribute("class", "custom-field-cont");
 
-                if(action == "save" || action == "update"){
+                if (action == "update") {
                     outputFieldNAme.textContent = allInputs[0].value;
-                    outputValue.textContent = allInputs[1].value
+                    outputValue.textContent = allInputs[1].value;
+                };
+                if (action == "save") {
+                    outputFieldNAme.textContent = allInputs[0].value;
+                    outputValue.textContent = allInputs[1].value;
+                    allInputs[2].value = ReturnValue;
+                    allBtns[1].setAttribute("onclick","manageuser.contactInfo(this.parentElement.parentElement,'update')");
                 };
 
             };
@@ -519,9 +559,6 @@
 
                 let url = `/api/manage?type=${typeOfData}`;
 
-                console.log(data);
-                console.log(url);
-
                 outDisp("Loading...");
 
                 fetch(url, {
@@ -536,13 +573,15 @@
                     return res.json();
                 }).then(res => {
 
+                    console.log(res.response);
+
                     if (res.response.type == "error") {
                         outDisp(res.response.data, "err");
                     } else {
                         if (action == "remove") {
                             mainObj.remove();
                         } else {
-                            cancel();
+                            cancel(res.response.resp);
                         };
                     };
 
@@ -570,12 +609,14 @@
                 <div class="action">
                     <img src="/icn/edit.svg"
                         onclick="manageuser.contactInfo(this.parentElement.parentElement,'edit')">
-                    <img src="/icn/delete.svg">
+                    <img src="/icn/delete.svg"
+                        onclick="manageuser.contactInfo(this.parentElement.parentElement,'remove')">
                 </div>
                 <div class="input-cont">
                     <div class="err">Create new custom field</div>
                     <input type="text" placeholder="Field Name" >
                     <input type="text" placeholder="Value" >
+                    <input type="hidden" value="">
                 </div>
                 <div class="btn-cont">
                     <button
@@ -587,6 +628,68 @@
             `+ obj.getElementsByClassName("custom-objects-are-kept-here")[0].innerHTML;
 
         },
+        editImg: function (obj, action) {
+
+            let mainObj = obj;
+
+            if (action == "open") {
+
+                mainObj.setAttribute("class", "openImg");
+
+            } else if (action == 'close') {
+
+                mainObj.setAttribute("class", "closedImg");
+
+            };
+
+        },
+        imageUpdate: function (e) {
+            e.preventDefault();
+            let files = e.dataTransfer.files;
+            this.finalImgSumbit(files);
+        },
+        allowDrop: function (e) {
+            e.preventDefault();
+        },
+        /**
+         * @param {Document} obj
+         * */
+        chooseFile: function (obj) {
+            let inputObj = obj.parentElement.querySelector("input#fileInput");
+            inputObj.click();
+        },
+        /**
+         * @param {Array} files
+         */
+        finalImgSumbit: function (files) {
+            if (files.length > 0 & files.length < 2) {
+
+                /** @type {File} */
+                let file = files[0];
+
+                if (file.type.startsWith("image/")) {
+
+                    let reader = new FileReader();
+
+                    reader.readAsDataURL(file)
+                    reader.onload = (e) => {
+                        console.log(reader.result)
+
+
+
+                    };
+
+                } else {
+
+                    // other type of file is passed
+
+                }
+
+
+            } else {
+                // more or less files are passed
+            };
+        }
 
     };
 

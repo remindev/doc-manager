@@ -7,7 +7,7 @@ import session from 'express-session';
 import ConnectMongoDBSession from 'connect-mongodb-session';
 const mongodbSesson = ConnectMongoDBSession(session);
 
-import { db } from './db.js';
+import { db, userObj } from './db.js';
 import { authTocken, auth, authMustLogin, userSessonsByUID } from './auth.js';
 import { dateToReadable, updateUserToDb, deviceLayout } from './functions.js';
 import { folderCheck, fs } from './files.js';
@@ -115,7 +115,7 @@ app.get("/login", (req, res) => {
     console.log(`GOT A REQUEST FROM UNAUTHERISED MACHINE !`);
 
     res.render("login", data);
-    
+
   };
 
 });
@@ -140,6 +140,11 @@ app.get('/manage', authMustLogin, (req, res) => {
       session: req.session,
       view: pageView
     };
+
+    if(data.user.img){
+      let path = `${__dirname}/publicUserContents/images/${data.user.img.split("/")[2]}`;
+      data.user.img = `data:image/png;base64,${fs.readFileSync(path,'base64')}`;
+    }
 
     dateToReadable(req.user.data.createdAt).then(redable => {
       data.user.createdAt = redable;
@@ -221,7 +226,8 @@ app.post("/api/manage", authMustLogin, (req, res) => {
       res.send({
         response: {
           type: "sucess",
-          data: resp
+          data: resp.first,
+          resp: resp.second
         }
       });
 
