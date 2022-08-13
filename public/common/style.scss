@@ -308,7 +308,8 @@ code.hljs {
 .hljs-meta .hljs-keyword,
 .hljs-name,
 .hljs-selector-tag {
-  font-weight: 700
+  font-weight: 500;
+  color:violet;
 }
 
 .hljs-deletion,
@@ -324,8 +325,8 @@ code.hljs {
 
 .hljs-section,
 .hljs-title {
-  color: #800;
-  font-weight: 700
+  color: rgb(204, 91, 91);
+  font-weight: 500
 }
 
 .hljs-link,

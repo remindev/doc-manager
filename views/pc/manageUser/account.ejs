@@ -29,7 +29,8 @@
                                     <p class="txt dim">Drag and drop</p>
                                     <p class="txt dim">or</p>
                                     <p class="fileChoose" onclick="manageuser.chooseFile(this)">Choose file</p>
-                                    <input type="file" onchange="manageuser.finalImgSumbit(this.event.target.files)" id="fileInput" hidden>
+                                    <input type="file" onchange="manageuser.finalImgSumbit(this.event.target.files)"
+                                        id="fileInput" hidden>
 
                                 </div>
                 </li>
@@ -138,6 +139,21 @@
 
             </ul>
         </div>
+
+        <li style="display: flex;">
+            <pre style="width: 100%;"><code>
+        function TipGenarator(){
+            // Let's go programmers
+
+            return {
+                1 : " You can doubletap on the above field to edit",
+                2 : " Click enywhere out of the field to upload the changes",
+                3 : " Explore more to learn more "
+            };
+
+        };
+            </code></pre>
+        </li>
 
         <div class="user-data" id="Custom_Fields">
             <div class="title">Other contact info</div>
@@ -486,7 +502,7 @@
                     outputFieldNAme.textContent = allInputs[0].value;
                     outputValue.textContent = allInputs[1].value;
                     allInputs[2].value = ReturnValue;
-                    allBtns[1].setAttribute("onclick","manageuser.contactInfo(this.parentElement.parentElement,'update')");
+                    allBtns[1].setAttribute("onclick", "manageuser.contactInfo(this.parentElement.parentElement,'update')");
                 };
 
             };
@@ -666,7 +682,7 @@
                     reader.onload = (e) => {
                         console.log(reader.result)
 
-                        
+
 
                     };
 
