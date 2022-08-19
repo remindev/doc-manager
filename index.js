@@ -12,7 +12,6 @@ import { authTocken, auth, authMustLogin, userSessonsByUID } from './auth.js';
 import { dateToReadable, updateUserToDb, deviceLayout } from './functions.js';
 import { folderCheck, fs } from './files.js';
 
-
 // initializing express
 const app = express();
 

@@ -1,5 +1,6 @@
 import { db } from './db.js' // importing db 
 import DeviceDetector from "device-detector-js"; // importing device detector for formatting and making a useful object with user agent
+import { VERSION } from 'ejs';
 
 const __dirname = process.cwd(); // defines currently working directory
 const deviceDetector = new DeviceDetector(); // initializes device detector functon
@@ -648,7 +649,6 @@ export function updateUserToDb(requst) {
 
 
 
-
 export function search(filter) {
     return new Promise((res, rej) => {
 
@@ -661,7 +661,7 @@ export function search(filter) {
         db.projects({ get: {} }, 'noId').then(data => {
 
             data.forEach(element => {
-                index.push(element['name'] + element['pid'])
+                index.push(element['name'] + element['pid']);
             });
 
             filterdST = index.filter(word => word.startsWith(filter));
