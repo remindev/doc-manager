@@ -3,5 +3,6 @@ keys/
 node_modules/
 pages/
 *.forRef
+*.code-workspace
 users/
 publicUserContents/
