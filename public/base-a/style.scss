@@ -126,6 +126,21 @@
   // display: none;
 }
 
+.partials.pc.manage.sidebar-vert {
+  margin-top: 25px;
+  width: 100%;
+  height: 30px;
+  border-bottom: 1px solid var(--common-border);
+  position: relative;
+  gap: 5px;
+  grid-template-columns: auto auto auto auto auto;
+
+  .text{
+    background-color: aqua;
+  }
+
+}
+
 // ----------------------- sidebar end ---------------------------
 
 .page.pc.manage {
@@ -504,13 +519,17 @@
 }
 
 
-
-
-
-
+@media screen and (min-width: 800px) {
+  .partials.pc.manage.sidebar-vert {
+    display: none;
+  }
+}
 @media screen and (max-width: 800px) {
   .partials.pc.manage.sidebar {
     display: none;
+  }
+  .partials.pc.manage.sidebar-vert {
+    display: grid;
   }
 
   .page.pc.manage {
